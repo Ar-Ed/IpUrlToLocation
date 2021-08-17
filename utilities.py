@@ -2,8 +2,7 @@ import tldextract
 import socket
 import requests
 import matplotlib.pyplot as plt
-import geopandas as gpd
-import pandas as pd
+import geopandas 
 
 
 API_URL = "http://ip-api.com/json/" 
@@ -30,8 +29,6 @@ def information(string):
             else:
                 IP = socket.gethostbyname(f'www.{extracted.domain}.{extracted.suffix}')
 
-            print(IP)
-
             if (info := requests.get(API_URL + IP).json() )['status'] == "success":
                 return info
             
@@ -44,23 +41,19 @@ def information(string):
 
 
 def plot_map(info):
-    
-    fig, ax = plt.subplots(figsize=(10,6))
-    
-    countries = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
-    
-    countries.plot(color="lightgrey", ax=ax)
-    
-    
-    df = pd.DataFrame({'longitude':[info['lon']], 'latitude': [info['lat']]})
-    
-    df.plot(
-        x="longitude", y="latitude", kind="scatter", colormap="YlOrRd", 
-        title=f"{info['country']}, {info['city']}, {info['zip']}", ax=ax
-    )
 
-    # add grid
-    ax.grid(b=True, alpha=0.5)
-    plt.show() 
+    world = geopandas.read_file(geopandas.datasets.get_path('naturalearth_lowres'))
 
-    
+    fig, ax = plt.subplots(figsize=(8,6))
+    ax.set_title(f"{info['country']} {info['city']} {info['zip']}")
+    ax.set_xlabel('Latitude')
+    ax.set_ylabel('Longitude')
+
+    ax.set_aspect('equal')
+
+    world.plot(ax=ax)
+
+    ax.plot(float(info['lon']), float(info['lat']), 'rx', label='marker only', markersize=10, mew=2)
+
+    fig.show()
+        

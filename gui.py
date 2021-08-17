@@ -8,7 +8,7 @@ from utilities import information, plot_map
 class Ui_Window(object):
     def setupUi(self, Window):
         Window.setObjectName("Window")
-        Window.resize(622, 421)
+        Window.setGeometry(700, 100, 600, 400)
         self.gridLayout_2 = QtWidgets.QGridLayout(Window)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.splitter_2 = QtWidgets.QSplitter(Window)
