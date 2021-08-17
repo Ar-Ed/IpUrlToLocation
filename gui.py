@@ -1,7 +1,8 @@
-
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtGui import QBitmap, QIcon
-from utilities import information
+
+
+from utilities import information, plot_map
 
 
 class Ui_Window(object):
@@ -185,7 +186,7 @@ class Ui_Window(object):
         text = self.lineEdit.text()
         info = information(text)
         info = {x: str(info[x]) for x in info}
-        
+
         self.label_9.setText(info['query'])
         self.label_10.setText(info['lat'])
         self.label_11.setText(info['lon'])
@@ -194,6 +195,7 @@ class Ui_Window(object):
         self.label_14.setText(info['city'])
         self.label_15.setText(info['zip'])
 
+        plot_map(info)
 
 
     def retranslateUi(self, Window):
