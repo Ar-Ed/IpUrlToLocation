@@ -8,11 +8,20 @@ import geopandas
 API_URL = "http://ip-api.com/json/" 
 
 
+def user_info():
+
+    IP = requests.get('https://api64.ipify.org?format=json').json()['ip']
+
+    if (info := requests.get(API_URL + IP).json())['status'] == "success":
+        return info
+
+    return {'country':'', 'city':'', 'zip': '', 'city': '', 'isp': '', 'lat': '', 'lon': '', 'query':''}
+
 def information(string):
 
     try:
 
-        socket.inet_aton(string)
+        socket.inet_aton(string) # string is the IP
 
         if (info := requests.get(API_URL + string).json())['status'] == "success":
             return info
